@@ -14,7 +14,9 @@ class Chapter(models.Model):
 
     class Meta:
         db_table = "es_chapter"
-        
+
+    def __str__(self):
+        return self.location        
 class Event(models.Model):
     name = models.CharField(max_length=480)
     description = models.TextField()
@@ -26,3 +28,6 @@ class Event(models.Model):
 
     class Meta:
         db_table = "es_event"
+
+    def __str__(self):
+        return self.name
