@@ -80,11 +80,19 @@ window.onload = function () {
 /* EVENT MAPS */
 
 function initMaps () {
-  initEventsMap()
-  initChaptersMap()
+  // triggered by google maps callback!
+  // olyfill for ie already loaded
+  fetch("http://192.168.1.3:9999/api/events")
+    .then(res => res.json())
+    .catch(error => console.error("Error: ", error))
+    .then(response => initEventsMap(response))
+  fetch("http://192.168.1.3:9999/api/chapters")
+    .then(res => res.json())
+    .catch(error => console.error("Error: ", error))
+    .then(response => initChaptersMap(response))
 }
 
-function initEventsMap () {
+function initEventsMap (json) {
   // don't load map when in editor because js doesn't like it
   if ($('html.et-fb-root-ancestor').length) { return }
 
@@ -184,16 +192,7 @@ function initEventsMap () {
     })
 
     // stock JSON data until we get it from the database
-    var json = [
-      {
-        'name': 'NS Canvassing Day #2',
-        'description': "<p>Since our January 15th event went so well, we're making it a biweekly thing! On February 1st, our Nova Scotia chapter will be meeting in the Dalhousie SUB - main floor, outside the Grawood - at 11:30am, to begin our second awareness-raising event. We will split up into groups and traverse the streets of downtown Halifax, carrying placards, scattering posters, flyers, brochures, and stickers, and engaging in dialogue with any passers-by who might be interested.</p><p>Our goal: to recruit as many people as possible!</p>",
-        'datetime': '2019-02-01 11:30 AM',
-        'latitude': 44.637002,
-        'longitude': -63.588972,
-        'page_url': 'https://www.facebook.com/events/2144968022231150/'
-      }
-    ]
+    var json = response
 
     // Creating a global infoWindow object that will be reused by all markers
     var infoWindow = new google.maps.InfoWindow({
@@ -233,7 +232,7 @@ function initEventsMap () {
 
 /* CHAPTERS MAP */
 
-function initChaptersMap () {
+function initChaptersMap (response) {
   // don't load map when in editor because js doesn't like it
   if ($('html.et-fb-root-ancestor').length) { return }
 
@@ -327,38 +326,7 @@ function initChaptersMap () {
     })
 
     // stock JSON data until we get it from the database
-    var json = [
-      {
-        'name': 'Canada',
-        'url': 'https://earth-strike.com/canada',
-        'logo_url': 'https://earth-strike.com/wp-content/uploads/logo-canada.png'
-      },
-      {
-        'name': 'Nova Scotia',
-        'url': 'https://earth-strike.com/nova-scotia',
-        'logo_url': 'https://earth-strike.com/wp-content/uploads/logo-canada.png'
-      },
-      {
-        'name': 'Italy',
-        'url': 'https://earth-strike.com/italy',
-        'logo_url': 'https://www.earth-strike.com/wp-content/uploads/logo-white-bg.png'
-      },
-      {
-        'name': 'Japan',
-        'url': 'https://earth-strike.com/japan',
-        'logo_url': 'https://www.earth-strike.com/wp-content/uploads/logo-white-bg.png'
-      },
-      {
-        'name': 'Netherlands',
-        'url': 'https://earth-strike.com/netherlands',
-        'logo_url': 'https://www.earth-strike.com/wp-content/uploads/logo-white-bg.png'
-      },
-      {
-        'name': 'United States',
-        'url': 'https://earth-strike.com/united-states',
-        'logo_url': 'https://www.earth-strike.com/wp-content/uploads/logo-white-bg.png'
-      }
-    ]
+    var json = response
 
     // Looping through the JSON data
     for (var i = 0, length = json.length; i < length; i++) {
