@@ -82,13 +82,13 @@ window.onload = function () {
 function initMaps () {
   // triggered by google maps callback!
   // olyfill for ie already loaded
-  fetch("http://192.168.1.3:9999/api/events")
+  fetch('http://192.168.1.3:9999/api/events')
     .then(res => res.json())
-    .catch(error => console.error("Error: ", error))
+    .catch(error => console.error('Error: ', error))
     .then(response => initEventsMap(response))
-  fetch("http://192.168.1.3:9999/api/chapters")
+  fetch('http://192.168.1.3:9999/api/chapters')
     .then(res => res.json())
-    .catch(error => console.error("Error: ", error))
+    .catch(error => console.error('Error: ', error))
     .then(response => initChaptersMap(response))
 }
 
